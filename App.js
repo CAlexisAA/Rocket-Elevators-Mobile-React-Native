@@ -14,7 +14,7 @@ function App () {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Homescreen" component={Homescreen} />
-      {/* <Stack.Screen name="Status" component={Status} /> */}
+      <Stack.Screen name="Status" component={Status} />
     </Stack.Navigator>
   );
 }

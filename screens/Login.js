@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Input, NativeBaseProvider, Button, Icon } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 function Login() {
     const navigation = useNavigation();
+
+    const [emailInput, setEmailInput] = useState([]);
+    const [passwordInput, setPasswordInput] = useState("");
     
     const employeeList = [
         'mathieu.houde@codeboxx.biz',
@@ -19,17 +22,9 @@ function Login() {
         'felicia.hartono@codeboxx.biz',
         'eileen.ai@codeboxx.biz',
     ]
-    
-    // const [userInfo, setUserInfo] = userInfo({
-    //     email:'',
-    //     password:''
-    // })
-    // const {email, password} = userInfo;
 
-    // const handleOnChangeText = (value, fieldName) => {
-    //     setUserInfo({...userInfo, [fieldName] : value})
-    // }
-    
+    const Password = "pswd123"     
+   
     return (
         <View style={styles.container}>
             <View style={styles.Middle}>
@@ -42,7 +37,8 @@ function Login() {
             {/*Username or Email*/}
             <View style={styles.buttonStyle}>
                 <View style={styles.emailInput}>
-                    <Input
+                    <Input onChangeText={text => setEmailInput(text)}
+                        autoCapitalize='none'
                         InputLeftElement={
                             <Icon
                                 as={<FontAwesome5 name="user-secret" />}
@@ -60,7 +56,6 @@ function Login() {
                         placeholder="Email"
                         _light={{
                             color: "black",
-                            // placeholderTextColor: "blueGray.50"
                         }}
                     />
                 </View>
@@ -69,7 +64,8 @@ function Login() {
             {/*Password*/}
             <View style={styles.buttonStyleX}>
                 <View style={styles.emailInput}>
-                    <Input
+                    <Input onChangeText={text => setPasswordInput(text)}
+                        autoCapitalize='none'
                         InputLeftElement={
                             <Icon
                                 as={<FontAwesome5 name="key" />}
@@ -99,7 +95,13 @@ function Login() {
 
             {/*Button*/}
             <View style={styles.buttonLogin}>
-                <Button onPress={() => navigation.navigate("Homescreen")}>
+                <Button onPress={() => { if (employeeList.includes(emailInput) && Password === passwordInput) {
+                     navigation.navigate("Homescreen")
+                    } else {
+                        alert("Please enter valid email or contact Admin")
+                   }}
+                }
+                    >
                     <Text style={styles.loginText}>Login</Text>
                 </Button>
             </View>

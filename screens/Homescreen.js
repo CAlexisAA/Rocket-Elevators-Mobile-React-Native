@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { NativeBaseProvider } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function Homescreen () {
     const navigation = useNavigation();
@@ -19,6 +20,17 @@ function Homescreen () {
 
     },[])
     
+    let updateStatus = async (id) => {
+        await fetch(`https://rocketelevators-api.azurewebsites.net/api/Elevator/${id}/Active`, {
+            method: "PUT"
+        })
+    }
+    const handleOnPress = (id) => {
+            updateStatus(id);
+        // updateNote = status
+        // handlesubmit = onpress
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.Middle}>
@@ -28,19 +40,15 @@ function Homescreen () {
                 loading ?( <Text>Loading...</Text>) : (
                     data.map((get)=> (
                         <View style={{flex:1, alignItems:"center", justifyContent:"center"}}>
+                          <Text style={{fontSize:25, fontWeight:"bold"}}>Elevator: {get.id}</Text>
                           <Text style={{fontSize:25, fontWeight:"bold"}}>{get.model}</Text> 
                           <Text style={{fontSize:25, fontWeight:"bold"}}>{get.serialNumber}</Text>
-                          <Text style={{fontSize:20, color:"red"}}>is {get.status}</Text>  
+                          <Button onPress={handleOnPress(get.id, get.status)} style={{fontSize:20, color:"red"}}title={get.status}/>
                         </View>
                     ))
                 )
             }
             <View style={styles.Middle}>
-                {/* <Text style={styles.welcomeText}>Welcome</Text> */}
-                <View style={styles.statusButton}>
-                <Button onPress={() => navigation.navigate("Status")} title="Change status" />
-                </View>
-
                 <View style={styles.logoutButton}>
                 <Button onPress={() => navigation.navigate("Login")} title="Logout" />
                 </View>
